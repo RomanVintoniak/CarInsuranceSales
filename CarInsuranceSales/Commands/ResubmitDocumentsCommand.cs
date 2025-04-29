@@ -4,7 +4,7 @@ using Telegram.Bot.Types;
 
 namespace CarInsuranceSales.Commands;
 
-public class ResubmitDataCommand : IBotCommand
+public class ResubmitDocumentsCommand : IBotCommand
 {
     public async Task Execute(ITelegramBotClient botClient, Update update, CancellationToken token)
     {

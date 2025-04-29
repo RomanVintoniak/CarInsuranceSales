@@ -25,11 +25,11 @@ public class BotEngine(ITelegramBotClient botClient, IReadOnlyList<IBotCommand> 
 
     private async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken token)
     {
-        var commandToExecute = commands.FirstOrDefault(x => x.ShouldExecute(update));
+        var command = commands.FirstOrDefault(c => c.ShouldExecute(update));
 
-        if (commandToExecute != null)
+        if (command != null)
         {
-            await commandToExecute.Execute(botClient, update, token);
+            await command.Execute(botClient, update, token);
         }
         else
         {

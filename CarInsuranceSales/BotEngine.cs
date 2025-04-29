@@ -1,10 +1,11 @@
 ﻿using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using CarInsuranceSales.Interfaces;
 
 namespace CarInsuranceSales;
 
-public class BotEngine(ITelegramBotClient botClient)
+public class BotEngine(ITelegramBotClient botClient, IDocumentDataProvider dataProvider)
 {
     public async Task ListenToMessages()
     {
@@ -35,9 +36,9 @@ public class BotEngine(ITelegramBotClient botClient)
 
             string base64Photo = await DownloadFileAsBase64(botClient, photo);
 
-            Console.WriteLine($"base64Photo length: {base64Photo.Length}");
+            var response = await dataProvider.GetDocumentData(base64Photo);
 
-            await botClient.SendMessage(update.Message.Chat.Id, $"File size in bytes is: {photo.FileSize}");
+            await botClient.SendMessage(update.Message.Chat.Id, response.ToString());
         }
     }
 

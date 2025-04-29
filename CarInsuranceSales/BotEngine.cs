@@ -28,6 +28,28 @@ public class BotEngine(ITelegramBotClient botClient)
         {
             await botClient.SendMessage(update.Message.Chat.Id, "Welcome!");
         }
+
+        if (update.Message.Photo != null)
+        {
+            var photo = update.Message.Photo.Last();
+
+            string base64Photo = await DownloadFileAsBase64(botClient, photo);
+
+            Console.WriteLine($"base64Photo length: {base64Photo.Length}");
+
+            await botClient.SendMessage(update.Message.Chat.Id, $"File size in bytes is: {photo.FileSize}");
+        }
+    }
+
+    private static async Task<string> DownloadFileAsBase64(ITelegramBotClient botClient, PhotoSize photo)
+    {
+        using var memoryStream = new MemoryStream();
+
+        var file = await botClient.GetInfoAndDownloadFile(photo.FileId, memoryStream);
+
+        Console.WriteLine($"File size: {file.FileSize} | File Path: {file.FilePath}");
+
+        return Convert.ToBase64String(memoryStream.ToArray());
     }
 
     private Task HandleError(ITelegramBotClient client, Exception exception, HandleErrorSource source, CancellationToken token)

@@ -4,7 +4,7 @@ using Telegram.Bot;
 
 var dataProvider = new DocumentDataProviderFactory().GetDocumentDataProvider();
 
-TelegramBotClient telegramBotClient = new TelegramBotClient(AccessTokens.TelegramBotToken);
+TelegramBotClient telegramBotClient = new TelegramBotClient(Constants.TelegramBotToken);
 
 BotEngine myBot = new BotEngine(telegramBotClient, dataProvider);
 

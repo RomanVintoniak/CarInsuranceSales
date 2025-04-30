@@ -5,13 +5,15 @@ namespace CarInsuranceSales.DocumentDataProviders;
 
 public class FakeDocumentDataProvider : IDocumentDataProvider
 {
-    public Task<DocumentData> GetDocumentData(string documentBase64)
+    public Task<DocumentData> GetDocumentData(MemoryStream stream)
     {
         return Task.FromResult<DocumentData>(new()
         {
             FirstName = "Roman",
             LastName = "Vinto",
-            SerialNumber = "1232131231231231",
+            IdNumber = "1232131231231231",
+            CountryCode = "USA",
+            DateOfBirth = "1968-01-06"
         });
     }
 }

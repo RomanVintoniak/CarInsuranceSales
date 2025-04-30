@@ -1,13 +1,43 @@
-﻿namespace CarInsuranceSales.Models;
+﻿using Mindee.Parsing.Common;
+using Mindee.Product.Passport;
+using System.Text;
+
+namespace CarInsuranceSales.Models;
 
 public class DocumentData
 {
+    public DocumentData()
+    {
+        
+    }
+
+    public DocumentData(PredictResponse<PassportV1> response)
+    {
+        var prediction = response.Document.Inference.Prediction;
+
+        IdNumber = prediction.IdNumber.Value;
+        CountryCode = prediction.Country.Value;
+        FirstName = prediction.GivenNames[0].Value;
+        LastName = prediction.Surname.Value;
+        DateOfBirth = prediction.BirthDate.Value;
+    }
+
+    public string IdNumber { get; set; }
+    public string CountryCode { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string SerialNumber { get; set; }
+    public string DateOfBirth { get; set; }
 
     public override string ToString()
     {
-        return $"{FirstName} {LastName} {SerialNumber}";
+        StringBuilder result = new StringBuilder();
+
+        result.Append($":Country Code: {CountryCode}\n");
+        result.Append($":ID Number: {IdNumber}\n");
+        result.Append($":Given Name(s): {FirstName}\n");
+        result.Append($":Surname: {LastName}\n");
+        result.Append($":Date of Birth: {DateOfBirth}\n");
+
+        return result.ToString();
     }
 }

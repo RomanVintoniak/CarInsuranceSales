@@ -10,27 +10,35 @@ public class ProcessDocumentsCommand(IDocumentDataProvider dataProvider) : IBotC
     {
         var photo = update.Message.Photo.Last();
 
-        string base64Photo = await DownloadFileAsBase64(botClient, photo);
+        var fileStream = await DownloadFile(botClient, photo);
 
-        var response = await dataProvider.GetDocumentData(base64Photo);
+        try
+        {
+            var response = await dataProvider.GetDocumentData(fileStream);
 
-        await botClient.SendMessage(
-            update.Message.Chat.Id,
-            response.ToString(),
-            replyMarkup: new string[] { "Confirm data", "Resubmit data" }.ToMarkup()
-        );
+            await botClient.SendMessage(
+                update.Message.Chat.Id,
+                response.ToString(),
+                replyMarkup: new string[] { "Confirm data", "Resubmit data" }.ToMarkup()
+            );
+
+        } catch (ApplicationException appEx)
+        {
+            await botClient.SendMessage(
+                update.Message.Chat.Id,
+                appEx.Message
+            );
+        }
     }
 
     public bool ShouldExecute(Update update) => update.Message != null && update.Message.Photo != null;
 
-    private static async Task<string> DownloadFileAsBase64(ITelegramBotClient botClient, PhotoSize photo)
+    private static async Task<MemoryStream> DownloadFile(ITelegramBotClient botClient, PhotoSize photo)
     {
         using var memoryStream = new MemoryStream();
 
         var file = await botClient.GetInfoAndDownloadFile(photo.FileId, memoryStream);
 
-        Console.WriteLine($"File size: {file.FileSize} | File Path: {file.FilePath}");
-
-        return Convert.ToBase64String(memoryStream.ToArray());
+        return memoryStream;
     }
 }

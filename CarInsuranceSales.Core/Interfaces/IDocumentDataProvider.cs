@@ -4,5 +4,5 @@ namespace CarInsuranceSales.Interfaces;
 
 public interface IDocumentDataProvider
 {
-    Task<DocumentData> GetDocumentData(string documentBase64);
+    Task<DocumentData> GetDocumentData(MemoryStream stream);
 }

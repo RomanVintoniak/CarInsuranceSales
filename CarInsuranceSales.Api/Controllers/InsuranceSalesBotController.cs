@@ -38,12 +38,6 @@ public class InsuranceSalesBotController : ControllerBase
         };
     }
 
-    [HttpGet]
-    public IActionResult Get()
-    {
-        return Ok("Api Works!" + _options.PolicyDocumentUrl);
-    }
-
     [HttpPost]
     public async Task<IActionResult> Post(Update update)
     {

@@ -4,8 +4,10 @@ using Telegram.Bot.Types;
 
 namespace CarInsuranceSales.Commands;
 
+/// <inheritdoc/>
 public class ConfirmDocumentsDataCommand : IBotCommand
 {
+    /// <inheritdoc/>
     public async Task Execute(ITelegramBotClient botClient, Update update, CancellationToken token)
     {
         await botClient.SendMessage(
@@ -20,5 +22,6 @@ public class ConfirmDocumentsDataCommand : IBotCommand
         );
     }
 
+    /// <inheritdoc/>
     public bool ShouldExecute(Update update) => update.Message.Text == "Confirm data";
 }

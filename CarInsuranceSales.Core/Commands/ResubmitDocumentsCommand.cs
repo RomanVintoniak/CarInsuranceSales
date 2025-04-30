@@ -4,8 +4,10 @@ using Telegram.Bot.Types;
 
 namespace CarInsuranceSales.Commands;
 
+/// <inheritdoc/>
 public class ResubmitDocumentsCommand : IBotCommand
 {
+    /// <inheritdoc/>
     public async Task Execute(ITelegramBotClient botClient, Update update, CancellationToken token)
     {
         await botClient.SendMessage(
@@ -14,5 +16,6 @@ public class ResubmitDocumentsCommand : IBotCommand
         );
     }
 
+    /// <inheritdoc/>
     public bool ShouldExecute(Update update) => update.Message.Text == "Resubmit data";
 }

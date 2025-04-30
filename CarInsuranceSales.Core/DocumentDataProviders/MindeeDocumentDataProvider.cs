@@ -9,6 +9,9 @@ using Mindee.Product.Passport;
 
 namespace CarInsuranceSales.DocumentDataProviders;
 
+/// <summary>
+/// Retrieves personal data from document using Mindee API
+/// </summary>
 public class MindeeDocumentDataProvider : IDocumentDataProvider
 {
     private readonly MindeeClient _mindeeClient;
@@ -18,6 +21,7 @@ public class MindeeDocumentDataProvider : IDocumentDataProvider
         _mindeeClient = new MindeeClient(options.Value.MindeeApiKey);
     }
 
+    /// <inheritdoc/>
     public async Task<DocumentData> GetDocumentData(MemoryStream stream)
     {
         try

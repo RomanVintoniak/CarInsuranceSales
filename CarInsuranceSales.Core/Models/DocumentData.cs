@@ -4,6 +4,9 @@ using System.Text;
 
 namespace CarInsuranceSales.Models;
 
+/// <summary>
+/// Model for holding data retrieved from a personal document
+/// </summary>
 public class DocumentData
 {
     public DocumentData()
@@ -34,7 +37,7 @@ public class DocumentData
 
         result.Append($":Country Code: {CountryCode}\n");
         result.Append($":ID Number: {IdNumber}\n");
-        result.Append($":Given Name(s): {FirstName}\n");
+        result.Append($":First Name: {FirstName}\n");
         result.Append($":Surname: {LastName}\n");
         result.Append($":Date of Birth: {DateOfBirth}\n");
 

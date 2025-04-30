@@ -1,5 +1,8 @@
 ﻿namespace CarInsuranceSales.Core.Configuration;
 
+/// <summary>
+/// Application configuration options
+/// </summary>
 public class AppOptions
 {
     public string TelegramBotToken { get; set; }

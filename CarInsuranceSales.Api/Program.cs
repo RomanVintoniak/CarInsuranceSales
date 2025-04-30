@@ -1,7 +1,6 @@
 using CarInsuranceSales.DocumentDataProviders;
 using CarInsuranceSales.Interfaces;
 using CarInsuranceSales.PolicyProviders;
-using Telegram.Bot;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +11,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ITelegramBotClient, TelegramBotClient>();
 builder.Services.AddScoped<IDocumentDataProvider, FakeDocumentDataProvider>();
 builder.Services.AddScoped<IPolicyProvider, FakePolicyProvider>();
 

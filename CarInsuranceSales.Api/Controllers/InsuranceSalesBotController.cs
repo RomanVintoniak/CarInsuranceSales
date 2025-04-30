@@ -17,12 +17,11 @@ public class InsuranceSalesBotController : ControllerBase
     private readonly IReadOnlyList<IBotCommand> _commands;
 
     public InsuranceSalesBotController(
-        ITelegramBotClient botClient, 
         IDocumentDataProvider dataProvider, 
         IPolicyProvider policyProvider
     )
     {
-        _botClient = botClient;
+        _botClient = new TelegramBotClient(Constants.TelegramBotToken);
         _dataProvider = dataProvider;
         _policyProvider = policyProvider;
 

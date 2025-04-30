@@ -1,6 +1,7 @@
 # CarInsuranceSalesBot
 
-A Telegram bot that assists users in purchasing car insurance by processing user-submitted documents and confirming transaction details.
+A Telegram bot that assists users in purchasing car insurance by processing user-submitted documents and confirming transaction details. <br>
+Here is the link to the bot - [click](https://t.me/insuro_bot)
 
 ## Setup Instructions
 

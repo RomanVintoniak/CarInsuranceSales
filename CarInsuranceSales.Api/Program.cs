@@ -13,7 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IDocumentDataProvider, MindeeDocumentDataProvider>();
-builder.Services.AddScoped<IPolicyProvider, FakePolicyProvider>();
+builder.Services.AddScoped<IPolicyProvider, OpenAiPolicyProvider>();
 
 builder.Services.Configure<AppOptions>(builder.Configuration);
 

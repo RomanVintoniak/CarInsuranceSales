@@ -1,3 +1,8 @@
+using CarInsuranceSales.DocumentDataProviders;
+using CarInsuranceSales.Interfaces;
+using CarInsuranceSales.PolicyProviders;
+using Telegram.Bot;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ITelegramBotClient, TelegramBotClient>();
+builder.Services.AddScoped<IDocumentDataProvider, FakeDocumentDataProvider>();
+builder.Services.AddScoped<IPolicyProvider, FakePolicyProvider>();
 
 var app = builder.Build();
 

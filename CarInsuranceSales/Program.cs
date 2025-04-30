@@ -1,11 +1,11 @@
 ﻿using CarInsuranceSales;
 using CarInsuranceSales.Commands;
-using CarInsuranceSales.Factory;
+using CarInsuranceSales.DocumentDataProviders;
 using CarInsuranceSales.Interfaces;
 using CarInsuranceSales.PolicyProviders;
 using Telegram.Bot;
 
-var dataProvider = new DocumentDataProviderFactory().GetDocumentDataProvider();
+IDocumentDataProvider dataProvider = new FakeDocumentDataProvider();
 
 IPolicyProvider policyProvider = new FakePolicyProvider();
 

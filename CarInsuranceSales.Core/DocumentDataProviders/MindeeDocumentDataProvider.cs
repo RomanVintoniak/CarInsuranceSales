@@ -1,5 +1,7 @@
-﻿using CarInsuranceSales.Interfaces;
+﻿using CarInsuranceSales.Core.Configuration;
+using CarInsuranceSales.Interfaces;
 using CarInsuranceSales.Models;
+using Microsoft.Extensions.Options;
 using Mindee;
 using Mindee.Exceptions;
 using Mindee.Input;
@@ -7,15 +9,22 @@ using Mindee.Product.Passport;
 
 namespace CarInsuranceSales.DocumentDataProviders;
 
-public class MindeeDocumentDataProvider(MindeeClient mindeeClient) : IDocumentDataProvider
+public class MindeeDocumentDataProvider : IDocumentDataProvider
 {
+    private readonly MindeeClient _mindeeClient;
+
+    public MindeeDocumentDataProvider(IOptions<AppOptions> options)
+    {
+        _mindeeClient = new MindeeClient(options.Value.MindeeApiKey);
+    }
+
     public async Task<DocumentData> GetDocumentData(MemoryStream stream)
     {
         try
         {
             var inputSource = new LocalInputSource(stream.ToArray(), "file.png");
 
-            var response = await mindeeClient.ParseAsync<PassportV1>(inputSource);
+            var response = await _mindeeClient.ParseAsync<PassportV1>(inputSource);
 
             return new DocumentData(response);
 

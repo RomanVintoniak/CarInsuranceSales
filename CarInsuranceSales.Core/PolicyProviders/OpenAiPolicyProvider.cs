@@ -1,18 +1,19 @@
-﻿using CarInsuranceSales.Interfaces;
+﻿using CarInsuranceSales.Core.Configuration;
+using CarInsuranceSales.Interfaces;
+using Microsoft.Extensions.Options;
 using OpenAI.Images;
 
 namespace CarInsuranceSales.PolicyProviders;
 
-public class OpenAiPolicyProvider : IPolicyProvider
+public class OpenAiPolicyProvider(IOptions<AppOptions> options) : IPolicyProvider
 {
-    private const string _apiKey = "";
     public async Task<string> GetInsurencePolicy()
     {
-        ImageClient client = new("dall-e-3", _apiKey);
+        var imageClient = new ImageClient("dall-e-3", options.Value.OpenAiApiKey);
 
         string prompt = "Prompt will be here";
 
-        ImageGenerationOptions options = new()
+        ImageGenerationOptions generationOptions = new()
         {
             Quality = GeneratedImageQuality.Standard,
             Size = GeneratedImageSize.W1024xH1024,
@@ -20,7 +21,7 @@ public class OpenAiPolicyProvider : IPolicyProvider
             ResponseFormat = GeneratedImageFormat.Uri
         };
 
-        GeneratedImage image = await client.GenerateImageAsync(prompt, options);
+        GeneratedImage image = await imageClient.GenerateImageAsync(prompt, generationOptions);
 
         return image.ImageUri.ToString();
     }

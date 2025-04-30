@@ -1,10 +1,8 @@
 using CarInsuranceSales.Commands;
 using CarInsuranceSales.Core.Configuration;
-using CarInsuranceSales.DocumentDataProviders;
 using CarInsuranceSales.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Mindee;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -21,11 +19,11 @@ public class InsuranceSalesBotController : ControllerBase
 
     private readonly IReadOnlyList<IBotCommand> _commands;
 
-    public InsuranceSalesBotController(IPolicyProvider policyProvider, IOptions<AppOptions> options)
+    public InsuranceSalesBotController(IPolicyProvider policyProvider, IDocumentDataProvider dataProvider, IOptions<AppOptions> options)
     {
         _options = options.Value;
         _botClient = new TelegramBotClient(_options.TelegramBotToken);
-        _dataProvider = new MindeeDocumentDataProvider(new MindeeClient(_options.MindeeApiKey));
+        _dataProvider = dataProvider;
         _policyProvider = policyProvider;
 
         _commands = new List<IBotCommand>

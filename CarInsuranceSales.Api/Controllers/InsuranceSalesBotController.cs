@@ -3,6 +3,7 @@ using CarInsuranceSales.Core.Configuration;
 using CarInsuranceSales.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using OpenAI.Chat;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -15,6 +16,7 @@ public class InsuranceSalesBotController : ControllerBase
     private readonly ITelegramBotClient _botClient;
     private readonly IDocumentDataProvider _dataProvider;
     private readonly IPolicyProvider _policyProvider;
+    private readonly ChatClient _openAiChatClient;
     private readonly AppOptions _options;
 
     private readonly IReadOnlyList<IBotCommand> _commands;
@@ -25,11 +27,12 @@ public class InsuranceSalesBotController : ControllerBase
         _botClient = new TelegramBotClient(_options.TelegramBotToken);
         _dataProvider = dataProvider;
         _policyProvider = policyProvider;
+        _openAiChatClient = new ChatClient(_options.OpenAiChatModelName, _options.OpenAiApiKey);
 
         _commands = new List<IBotCommand>
         {
-            new WelcomeCommand(),
-            new ProcessDocumentsCommand(_dataProvider),
+            new WelcomeCommand(_openAiChatClient),
+            new ProcessDocumentsCommand(_dataProvider, _openAiChatClient),
             new ConfirmDocumentsDataCommand(),
             new ResubmitDocumentsCommand(),
             new DisagreePriceCommand(),

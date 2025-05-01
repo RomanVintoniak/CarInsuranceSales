@@ -1,11 +1,13 @@
-﻿using CarInsuranceSales.Interfaces;
+﻿using CarInsuranceSales.Core;
+using CarInsuranceSales.Interfaces;
+using OpenAI.Chat;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace CarInsuranceSales.Commands;
 
 /// <inheritdoc/>
-public class ProcessDocumentsCommand(IDocumentDataProvider dataProvider) : IBotCommand
+public class ProcessDocumentsCommand(IDocumentDataProvider dataProvider, ChatClient chatClient) : IBotCommand
 {
     /// <inheritdoc/>
     public async Task Execute(ITelegramBotClient botClient, Update update, CancellationToken token)
@@ -16,11 +18,20 @@ public class ProcessDocumentsCommand(IDocumentDataProvider dataProvider) : IBotC
 
         try
         {
-            var response = await dataProvider.GetDocumentData(fileStream);
+            ChatCompletion completion = chatClient.CompleteChat(Prompts.GetProccesingDocumentsPrompt());
 
             await botClient.SendMessage(
                 update.Message.Chat.Id,
-                response.ToString(),
+                completion.Content[0].Text
+            );
+
+            var response = await dataProvider.GetDocumentData(fileStream);
+
+            completion = chatClient.CompleteChat(Prompts.GetProccessedDataConfirmationPrompt(response.ToString()));
+
+            await botClient.SendMessage(
+                update.Message.Chat.Id,
+                completion.Content[0].Text,
                 replyMarkup: new string[] { "Confirm data", "Resubmit data" }.ToMarkup()
             );
 

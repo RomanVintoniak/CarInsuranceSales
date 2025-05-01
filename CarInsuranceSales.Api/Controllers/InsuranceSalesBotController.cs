@@ -1,4 +1,5 @@
 using CarInsuranceSales.Commands;
+using CarInsuranceSales.Core;
 using CarInsuranceSales.Core.Configuration;
 using CarInsuranceSales.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -33,11 +34,11 @@ public class InsuranceSalesBotController : ControllerBase
         {
             new WelcomeCommand(_openAiChatClient),
             new ProcessDocumentsCommand(_dataProvider, _openAiChatClient),
-            new ConfirmDocumentsDataCommand(),
-            new ResubmitDocumentsCommand(),
-            new DisagreePriceCommand(),
-            new BuyCarInsuranceCommand(_policyProvider),
-            new CancelBuyingCarInsuranceCommand()
+            new ConfirmDocumentsDataCommand(_openAiChatClient),
+            new ResubmitDocumentsCommand(_openAiChatClient),
+            new DisagreePriceCommand(_openAiChatClient),
+            new BuyCarInsuranceCommand(_policyProvider, _openAiChatClient),
+            new CancelBuyingCarInsuranceCommand(_openAiChatClient)
         };
     }
 
@@ -54,7 +55,9 @@ public class InsuranceSalesBotController : ControllerBase
         }
         else
         {
-            await _botClient.SendMessage(update.Message.Chat.Id, "Command is not supported");
+            ChatCompletion completion = _openAiChatClient.CompleteChat(Prompts.GetUnsuportedCommandPrompt());
+           
+            await _botClient.SendMessage(update.Message.Chat.Id, completion.Content[0].Text);
         }
 
         return Ok();

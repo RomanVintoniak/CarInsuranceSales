@@ -1,18 +1,22 @@
-﻿using CarInsuranceSales.Interfaces;
+﻿using CarInsuranceSales.Core;
+using CarInsuranceSales.Interfaces;
+using OpenAI.Chat;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace CarInsuranceSales.Commands;
 
 /// <inheritdoc/>
-public class CancelBuyingCarInsuranceCommand : IBotCommand
+public class CancelBuyingCarInsuranceCommand(ChatClient chatClient) : IBotCommand
 {
     /// <inheritdoc/>
     public async Task Execute(ITelegramBotClient botClient, Update update, CancellationToken token)
     {
+        ChatCompletion completion = chatClient.CompleteChat(Prompts.GetCancelPurchasePrompt());
+
         await botClient.SendMessage(
             update.Message.Chat.Id,
-            "Car insurance purchase successfully canceled"
+            completion.Content[0].Text
         );
     }
 

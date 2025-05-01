@@ -1,23 +1,29 @@
-﻿using CarInsuranceSales.Interfaces;
+﻿using CarInsuranceSales.Core;
+using CarInsuranceSales.Interfaces;
+using OpenAI.Chat;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace CarInsuranceSales.Commands;
 
 /// <inheritdoc/>
-public class ConfirmDocumentsDataCommand : IBotCommand
+public class ConfirmDocumentsDataCommand(ChatClient chatClient) : IBotCommand
 {
     /// <inheritdoc/>
     public async Task Execute(ITelegramBotClient botClient, Update update, CancellationToken token)
     {
-        await botClient.SendMessage(
-            update.Message.Chat.Id,
-            "The fixed price for the insurance is 100 USD."
-        );
+        ChatCompletion completion = chatClient.CompleteChat(Prompts.GetInsurancePricePrompt());
 
         await botClient.SendMessage(
             update.Message.Chat.Id,
-            "Do you agree with the price ?",
+            completion.Content[0].Text
+        );
+
+        completion = chatClient.CompleteChat(Prompts.GetAgreementAboutPricePrompt());
+
+        await botClient.SendMessage(
+            update.Message.Chat.Id,
+            completion.Content[0].Text,
             replyMarkup: new string[] { "Agree", "Disagree" }.ToMarkup()
         );
     }

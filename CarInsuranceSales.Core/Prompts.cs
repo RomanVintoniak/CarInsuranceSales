@@ -39,5 +39,10 @@ Here is client's data, send it to the client aslo:
 
     public static string GetBuyingInsurancePrompt() => $"{_commonContext}\nSay that you are generating an insurance policy for them, and will send it in a minute";
 
-    public static string GetUnsuportedCommandPrompt() => $"{_commonContext}\nExplain that your main point is to help with purchasing insurance, you don't talk about different topics, and don't execute non-related commands";
+    public static string GetUnsuportedCommandPrompt()
+    {
+        return @$"{_commonContext}\nExplain that your main point is to help with purchasing insurance, you don't talk about different topics, and don't execute non-related commands.
+
+Ask the client to follow the steps and send you the documents if they haven't sent them yet";
+    }
 }

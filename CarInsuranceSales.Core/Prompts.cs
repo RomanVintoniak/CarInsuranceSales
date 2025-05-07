@@ -2,7 +2,7 @@
 
 public class Prompts
 {
-    private const string _commonContext = "Act as a Car Insurance Sales Company administrator who communicates with customers. Try to be brief. Don't include any farewell text in the end";
+    private const string _commonContext = "Act as a Car Insurance Sales Company administrator who communicates with customers. Try to be brief. Don't include any farewell text at the end";
 
     public static string GetWelcomePrompt()
     {
@@ -15,7 +15,7 @@ Please introduce yourself and explain that your purpose is to assist with car in
     {
         return $@"{_commonContext} You have recived customer's documents and are proccesing them to retrive data from documents. 
 
-Please, Inform customer, that you are proceesing documents";
+Please, Inform customer, that you are proceesing documents. Don't add any welcome text at the beginning.";
     }
 
 

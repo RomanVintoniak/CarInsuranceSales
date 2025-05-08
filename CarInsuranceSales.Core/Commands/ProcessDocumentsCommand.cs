@@ -1,4 +1,5 @@
 ﻿using CarInsuranceSales.Core;
+using CarInsuranceSales.DataAccess.Repository;
 using CarInsuranceSales.Interfaces;
 using OpenAI.Chat;
 using Telegram.Bot;
@@ -7,7 +8,9 @@ using Telegram.Bot.Types;
 namespace CarInsuranceSales.Commands;
 
 /// <inheritdoc/>
-public class ProcessDocumentsCommand(IDocumentDataProvider dataProvider, ChatClient chatClient) : IBotCommand
+public class ProcessDocumentsCommand(IDocumentDataProvider dataProvider, 
+    ChatClient chatClient, 
+    IClientRepository clientRepository) : IBotCommand
 {
     /// <inheritdoc/>
     public async Task Execute(ITelegramBotClient botClient, Update update, CancellationToken token)
@@ -26,6 +29,9 @@ public class ProcessDocumentsCommand(IDocumentDataProvider dataProvider, ChatCli
             );
 
             var response = await dataProvider.GetDocumentData(fileStream);
+
+            var clientDto = response.ToClientDto(update.Message.Chat.Id);
+            await clientRepository.Add(clientDto);
 
             completion = chatClient.CompleteChat(Prompts.GetProccessedDataConfirmationPrompt(response.ToString()));
 

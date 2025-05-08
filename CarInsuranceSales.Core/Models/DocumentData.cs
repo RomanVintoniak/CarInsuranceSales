@@ -1,4 +1,5 @@
-﻿using Mindee.Parsing.Common;
+﻿using CarInsuranceSales.DataAccess.Models;
+using Mindee.Parsing.Common;
 using Mindee.Product.Passport;
 using System.Text;
 
@@ -12,6 +13,19 @@ public class DocumentData
     public DocumentData()
     {
         
+    }
+
+    public ClientDto ToClientDto(long chatId)
+    {
+        return new ClientDto()
+        {
+            IdNumber = IdNumber,
+            CountryCode = CountryCode,
+            DateOfBirth = DateTime.Parse(DateOfBirth),
+            FirstName = FirstName,
+            LastName = LastName,
+            ChatId = chatId
+        };
     }
 
     public DocumentData(PredictResponse<PassportV1> response)

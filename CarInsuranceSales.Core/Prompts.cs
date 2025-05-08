@@ -18,7 +18,6 @@ Please introduce yourself and explain that your purpose is to assist with car in
 Please, Inform customer, that you are proceesing documents. Don't add any welcome text at the beginning.";
     }
 
-
     public static string GetProccessedDataConfirmationPrompt(string proccessedData)
     {
         return $@"{_commonContext} Inform the client, that you have proccessed data and want them to confirm, that data is correct or resubmit documents if there are errors.

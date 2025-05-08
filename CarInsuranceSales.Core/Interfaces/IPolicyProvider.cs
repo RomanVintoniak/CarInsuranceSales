@@ -9,5 +9,5 @@ public interface IPolicyProvider
     /// Generates Insurence policy
     /// </summary>
     /// <returns>Url to generated Insurence policy file</returns>
-    Task<string> GetInsurencePolicy();
+    Task<string> GetInsurencePolicy(long chatId);
 }

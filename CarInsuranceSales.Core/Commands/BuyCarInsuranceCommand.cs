@@ -19,7 +19,7 @@ public class BuyCarInsuranceCommand(IPolicyProvider policyProvider, ChatClient c
             completion.Content[0].Text
         );
 
-        string policyUri = await policyProvider.GetInsurencePolicy();
+        string policyUri = await policyProvider.GetInsurencePolicy(update.Message.Chat.Id);
 
         await botClient.SendDocument(update.Message.Chat.Id, policyUri);
     }

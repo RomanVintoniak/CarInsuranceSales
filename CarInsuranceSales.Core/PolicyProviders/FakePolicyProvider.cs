@@ -11,7 +11,7 @@ namespace CarInsuranceSales.PolicyProviders;
 public class FakePolicyProvider(IOptions<AppOptions> options) : IPolicyProvider
 {
     /// <inheritdoc/>
-    public Task<string> GetInsurencePolicy()
+    public Task<string> GetInsurencePolicy(long chatId)
     {
         return Task.FromResult(options.Value.PolicyDocumentUrl);
     }

@@ -20,24 +20,20 @@ public class OpenAiPolicyProvider(
         var chatClient = new ChatClient(options.Value.OpenAiChatModelName, options.Value.OpenAiApiKey);
         var clientDto = await clientRepository.GetByChatId(chatId);
 
-        string prompt = @$"Generate a simple auto insurance policy document. The policy should include the following data:
+        string prompt = @$"Generate a simple auto insurance policy document. Try to be brief. The policy should include the following data:
 
-1. **Policyholder Information** – CarInsuranceSales.
-2. **Policy Details** – Include a fictional policy number, type of insurance (""Auto Insurance – Standard Coverage""), effective start and end dates.
-4. **Coverage Summary** – Outline what is covered (e.g., liability, collision, comprehensive) and include realistic but fictional coverage limits.
-5. **Exclusions** – List common exclusions such as intentional damage, racing, or using the vehicle for commercial purposes.
-6. **Premium and Payment Terms** – Include a fictional premium amount, payment frequency, and due date.
-7. **Claims Process** – Outline step-by-step instructions for filing a claim, including required documentation and contact info.
-8. **Customer Service Contact Information** – Include fictional phone number, email, and office hours.
+1. Policyholder Information: – CarInsuranceSales.
+2. Policy Details: – Type of insurance (""Auto Insurance – Standard Coverage""), Policy price is 100 USD.
+3. Client Information:**
+    Client name: {clientDto.FirstName} {clientDto.LastName}
+    Id number: {clientDto.IdNumber}
+    DOB: {clientDto.DateOfBirth.ToString("d")}
+    Country code: {clientDto.CountryCode}
+4. Coverage Summary: – Outline what is covered (e.g., liability, collision, comprehensive) and include realistic but fictional coverage limits.
+5. Exclusions: – List exclusions such as intentional damage, racing.
 
-Write the document in a professional and easy-to-read format, suitable for presentation or form testing. The policy price is 100 USD.
-Include the folowing client information in the end: 
-1. Client name: {clientDto.FirstName} {clientDto.LastName}
-2. Id number: {clientDto.IdNumber}
-3. DOB: {clientDto.DateOfBirth}
-4. Country code: {clientDto.CountryCode}
-"
-        ;
+Write the document in a professional and easy-to-read format, without large line spacing, suitable for presentation or form testing.
+Don't add any markdown symbols, farewell text. Don't add any text after Exclusions section";
 
         ChatCompletion completion = await chatClient.CompleteChatAsync(prompt);
 

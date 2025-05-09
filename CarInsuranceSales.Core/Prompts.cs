@@ -38,9 +38,13 @@ Here is client's data, send it to the client aslo:
 
     public static string GetBuyingInsurancePrompt() => $"{_commonContext}\nSay that you are generating an insurance policy for them, and will send it in a minute";
 
-    public static string GetUnsuportedCommandPrompt()
+    public static string GetUnsuportedCommandPrompt(string clientInput)
     {
-        return @$"{_commonContext}\nExplain that your main point is to help with purchasing insurance, you don't talk about different topics, and don't execute non-related commands.
+        return @$"{_commonContext}
+
+Analyze the customer's message: {clientInput}
+
+If the message concerns purchasing car insurance, try to respond humanely and shortly. Else, explain that your main point is to help with purchasing insurance, you don't talk about different topics, and don't execute non-related commands
 
 Ask the client to send you their passport if they haven't sent it yet";
     }

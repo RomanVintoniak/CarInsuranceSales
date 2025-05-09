@@ -3,6 +3,7 @@ using CarInsuranceSales.Interfaces;
 using OpenAI.Chat;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace CarInsuranceSales.Commands;
 
@@ -19,9 +20,13 @@ public class BuyCarInsuranceCommand(IPolicyProvider policyProvider, ChatClient c
             completion.Content[0].Text
         );
 
-        string policyUri = await policyProvider.GetInsurencePolicy(update.Message.Chat.Id);
+        string policy = await policyProvider.GetInsurencePolicy(update.Message.Chat.Id);
 
-        await botClient.SendDocument(update.Message.Chat.Id, policyUri);
+        await botClient.SendMessage(
+            update.Message.Chat.Id,
+            policy,
+            ParseMode.Markdown
+        );
     }
 
     /// <inheritdoc/>

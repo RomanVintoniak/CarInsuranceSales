@@ -60,7 +60,7 @@ public class InsuranceSalesBotController : ControllerBase
         }
         else
         {
-            ChatCompletion completion = _openAiChatClient.CompleteChat(Prompts.GetUnsuportedCommandPrompt());
+            ChatCompletion completion = _openAiChatClient.CompleteChat(Prompts.GetUnsuportedCommandPrompt(update.Message.Text));
            
             await _botClient.SendMessage(update.Message.Chat.Id, completion.Content[0].Text);
         }

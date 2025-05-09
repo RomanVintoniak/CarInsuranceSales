@@ -5,6 +5,10 @@ namespace CarInsuranceSales.DataAccess.Entities;
 
 public class Client
 {
+    public Client()
+    {
+
+    }
 
     public Client(ClientDto client)
     {

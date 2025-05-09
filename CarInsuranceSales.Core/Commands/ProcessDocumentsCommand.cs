@@ -41,11 +41,11 @@ public class ProcessDocumentsCommand(IDocumentDataProvider dataProvider,
                 replyMarkup: new string[] { "Confirm data", "Resubmit data" }.ToMarkup()
             );
 
-        } catch (ApplicationException appEx)
+        } catch (Exception ex)
         {
             await botClient.SendMessage(
                 update.Message.Chat.Id,
-                appEx.Message
+                ex.Message
             );
         }
     }

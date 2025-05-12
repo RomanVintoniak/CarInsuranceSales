@@ -21,7 +21,11 @@ builder.Services.AddScoped<IPolicyProvider, OpenAiPolicyProvider>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 builder.Services.AddDbContext<ApplicationContext>(option =>
-option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    option.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure()
+    )
+);
 
 builder.Services.Configure<AppOptions>(builder.Configuration);
 builder.Services.Configure<DbOptions>(builder.Configuration);

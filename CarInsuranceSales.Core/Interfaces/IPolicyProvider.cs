@@ -8,6 +8,7 @@ public interface IPolicyProvider
     /// <summary>
     /// Generates Insurence policy
     /// </summary>
-    /// <returns>Url to generated Insurence policy file</returns>
+    /// <param name="chatId">The client's chat ID</param>
+    /// <returns>Generated Insurence policy</returns>
     Task<string> GetInsurencePolicy(long chatId);
 }

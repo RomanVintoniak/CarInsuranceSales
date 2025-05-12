@@ -38,11 +38,17 @@ Make sure you have the following installed:
 Before running the application, configure the following values in the `appsettings.json` file:
 ```json
 {
-  "TelegramBotToken": "your-telegram-bot-token-here",
-  "MindeeApiKey": "your-mindee-api-key-here",
-  "OpenAiApiKey": "your-openai-api-key-here",
-  "PolicyDocumentUrl": "https://your-url-to-the-policy-document"
+  "ConnectionStrings": {
+    "DefaultConnection": "connection-to-your-database-here"
+  },
+  {
+    "TelegramBotToken": "your-telegram-bot-token-here",
+    "MindeeApiKey": "your-mindee-api-key-here",
+    "OpenAiApiKey": "your-openai-api-key-here",
+    "PolicyDocumentUrl": "https://your-url-to-the-policy-document"
 }
+}
+
 ```
 
 ## Dependencies

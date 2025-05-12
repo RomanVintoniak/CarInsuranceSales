@@ -3,8 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarInsuranceSales.DataAccess.Repository;
 
+/// <summary>
+/// Repository for managing client data using the provided database context
+/// </summary>
+/// <param name="dbContext">The application's database context</param>
 public class ClientRepository(ApplicationContext dbContext) : IClientRepository
 {
+    /// <inheritdoc/>
     public async Task Add(ClientDto clientDto)
     {
         var client = await dbContext.Clients.FirstOrDefaultAsync(c => c.ChatId == clientDto.ChatId);
@@ -25,6 +30,7 @@ public class ClientRepository(ApplicationContext dbContext) : IClientRepository
         await dbContext.SaveChangesAsync();
     }
 
+    /// <inheritdoc/>
     public async Task<ClientDto> GetByChatId(long chatId)
     {
         var client = await dbContext.Clients.FirstOrDefaultAsync(c => c.ChatId == chatId) 

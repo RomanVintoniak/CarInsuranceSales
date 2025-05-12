@@ -10,6 +10,7 @@ namespace CarInsuranceSales.PolicyProviders;
 /// Provides Insurence policy using OpenAI
 /// </summary>
 /// <param name="options">Application configuration <see cref="AppOptions"/></param>
+/// <param name="clientRepository">Repository for managing client data in database/></param>
 public class OpenAiPolicyProvider(
     IOptions<AppOptions> options,
     IClientRepository clientRepository) : IPolicyProvider
